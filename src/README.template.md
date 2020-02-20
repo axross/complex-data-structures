@@ -49,7 +49,7 @@ Useful snippets of complex data structures for algorithm contests
 
 ## API
 
-- [`new PriorityQueue(values, compare)`](#new-priorityqueuevalues-compare)
+- [`new PriorityQueue(compare)`](#new-priorityqueuevalues-compare)
   - [`priorityQueue.head`](#priorityqueuehead)
   - [`priorityQueue.pop()`](#priorityqueuepop)
   - [`priorityQueue.push(value)`](#priorityqueuepushvalue)
@@ -67,7 +67,7 @@ Useful snippets of complex data structures for algorithm contests
 
 ### `new PriorityQueue(values, compare)`
 
-Creates a [priority queue data structure](https://en.wikipedia.org/wiki/Priority_queue) from `values`.
+Creates a [priority queue data structure](https://en.wikipedia.org/wiki/Priority_queue).
 
 `compare` is a function to specify priority comparison strategy. This function should works in the exact same way with [`Array#sort()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort).
 
