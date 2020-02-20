@@ -217,7 +217,7 @@ Unites the given `a` and `b`. It takes O(α(n)) time.
 
 #### `unionFind.length`
 
-Returns number of unions in the union find tree in O(n) time. As long as no `unite()` is called, the return value is the same with the `length` at constructor.
+Returns number of unions in the union find tree in O(1) time. As long as no `unite()` is called, the return value is the same with the `length` at constructor.
 
 ## License
 

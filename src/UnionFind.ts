@@ -1,16 +1,9 @@
 export default class UnionFind<V> {
   private nodes: Map<V, UnionFindNode> = new Map();
+  private unionLength: number = 0;
 
   get length(): number {
-    let unions = 0;
-
-    for (const node of this.nodes.values()) {
-      if (node.parent === node) {
-        unions += 1;
-      }
-    }
-
-    return unions;
+    return this.unionLength;
   }
 
   isUnited(a: V, b: V): boolean {
@@ -26,6 +19,7 @@ export default class UnionFind<V> {
     (node as any).parent = node;
 
     this.nodes.set(value, node as any);
+    this.unionLength += 1;
   }
 
   unite(a: V, b: V): void {
@@ -39,6 +33,7 @@ export default class UnionFind<V> {
       newChild.parent = newRoot;
       newRoot.size += newChild.size;
       newChild.size = 1;
+      this.unionLength -= 1;
     }
   }
 
