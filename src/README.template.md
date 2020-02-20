@@ -14,19 +14,19 @@ Useful snippets of complex data structures for algorithm contests
 ### Priority Queue
 
 ```js
-class PriorityQueue{constructor(t){this.tree=[],this.compare=t}get length(){return this.tree.length}get head(){return this.tree.length>0?this.tree[0]:void 0}pop(){if(this.length<=1)return this.tree.shift();const t=this.head;this.tree[0]=this.tree.pop();let e=0;for(;e<this.tree.length;){const t=2*e+1,r=2*e+2;let h=e;if(t<this.tree.length&&this.compare(this.tree[t],this.tree[h])<0&&(h=t),r<this.tree.length&&this.compare(this.tree[r],this.tree[h])<0&&(h=r),e===h)break;[this.tree[e],this.tree[h]]=[this.tree[h],this.tree[e]],e=h}return t}push(t){this.tree.push(t);let e=this.tree.length-1;for(;e>0;){const t=e-1>>1;if(this.compare(this.tree[e],this.tree[t])>=0)break;[this.tree[e],this.tree[t]]=[this.tree[t],this.tree[e]],e=t}}}
+<%=PriorityQueue>
 ```
 
 ### Segment Tree
 
 ```js
-class SegmentTree{constructor(t,e,s){if(this.valueLength=t.length,this.identity=e,this.associate=s,0===t.length)this.tree=[];else{const h=2**Math.ceil(Math.log2(t.length))*2-1,i=[];for(let s=0;s<=h>>1;++s)i[(h>>1)+s]=s<t.length?t[s]:e;for(let t=(h>>1)-1;t>=0;--t)i[t]=s(i[2*t+1],i[2*t+2]);this.tree=i}}get length(){return this.valueLength}getAt(t){return this.tree[t+(this.tree.length>>1)]}queryIn(t,e){let s=this.identity;const h=[[0,0,1+(this.tree.length>>1)]];for(;h.length>0;){const[i,r,n]=h.pop();r>=t&&n<=e?s=this.associate(s,this.tree[i]):r>=e||n<t||i>this.tree.length>>1||h.push([2*i+1,r,r+n>>1],[2*i+2,r+n>>1,n])}return s}setAt(t,e){const s=t+(this.tree.length>>1);this.tree[s]=e;let h=s-1>>1;for(;h>=0;)this.tree[h]=this.associate(this.tree[2*h+1],this.tree[2*h+2]),h=h-1>>1}}
+<%=SegmentTree>
 ```
 
 ### Union Find / Disjoint Set
 
 ```js
-class UnionFind{constructor(e,t=0){this.nodes=[];for(let s=0;s<e;++s){const e={size:1};e.parent=e,this.nodes[s+t]=e}}get length(){return this.nodes.reduce((e,t)=>t.parent===t?e+1:e,0)}isUnited(e,t){return this.getRepresentative(this.nodes[e])===this.getRepresentative(this.nodes[t])}unite(e,t){const s=this.getRepresentative(this.nodes[e]),n=this.getRepresentative(this.nodes[t]);let i,r;s.size>=n.size?(i=s,r=n):(i=n,r=s),r.parent=i,i.size+=r.size,r.size=1}getRepresentative(e){return e.parent===e?e:(e.parent=this.getRepresentative(e.parent),e.parent)}}
+<%=UnionFind>
 ```
 
 ## API
