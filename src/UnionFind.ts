@@ -1,49 +1,61 @@
-export default class UnionFind {
-  constructor(length: number, offset: number = 0) {
-    for (let i = 0; i < length; ++i) {
-      const node = { size: 1 };
-      (node as any).parent = node;
-
-      this.nodes[i + offset] = node as any;
-    }
-  }
-
-  private nodes: UnionFindNode[] = [];
+export default class UnionFind<V> {
+  private nodes: Map<V, UnionFindNode> = new Map();
 
   get length(): number {
-    return this.nodes.reduce((len, n) => (n.parent === n ? len + 1 : len), 0);
+    let unions = 0;
+
+    for (const node of this.nodes.values()) {
+      if (node.parent === node) {
+        unions += 1;
+      }
+    }
+
+    return unions;
   }
 
-  isUnited(a: number, b: number): boolean {
+  isUnited(a: V, b: V): boolean {
     return (
-      this.getRepresentative(this.nodes[a]) ===
-      this.getRepresentative(this.nodes[b])
+      this.getRoot(this.nodes.get(a)!) === this.getRoot(this.nodes.get(b)!)
     );
   }
 
-  unite(a: number, b: number): void {
-    const rootA = this.getRepresentative(this.nodes[a]);
-    const rootB = this.getRepresentative(this.nodes[b]);
-    let newRoot;
-    let newChild;
+  add(value: V): void {
+    if (this.nodes.has(value)) throw new Error(`${value} already exists.`);
 
-    if (rootA.size >= rootB.size) {
-      newRoot = rootA;
-      newChild = rootB;
-    } else {
-      newRoot = rootB;
-      newChild = rootA;
-    }
+    const node = { size: 1 };
+    (node as any).parent = node;
 
-    newChild.parent = newRoot;
-    newRoot.size += newChild.size;
-    newChild.size = 1;
+    this.nodes.set(value, node as any);
   }
 
-  private getRepresentative(node: UnionFindNode): UnionFindNode {
+  unite(a: V, b: V): void {
+    const rootA = this.getRoot(this.getNode(a));
+    const rootB = this.getRoot(this.getNode(b));
+
+    if (rootA !== rootB) {
+      const newRoot = rootA.size >= rootB.size ? rootA : rootB;
+      const newChild = newRoot === rootA ? rootB : rootA;
+
+      newChild.parent = newRoot;
+      newRoot.size += newChild.size;
+      newChild.size = 1;
+    }
+  }
+
+  private getNode(value: V): UnionFindNode {
+    if (!this.nodes.has(value)) throw new Error(`${value} is not found.`);
+
+    return this.nodes.get(value)!;
+  }
+
+  /**
+   * gets the representative.
+   * during that, do path compression
+   */
+  private getRoot(node: UnionFindNode): UnionFindNode {
     if (node.parent === node) return node;
 
-    node.parent = this.getRepresentative(node.parent);
+    node.parent = this.getRoot(node.parent);
 
     return node.parent;
   }
