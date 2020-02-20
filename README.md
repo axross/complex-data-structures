@@ -39,11 +39,12 @@ class SegmentTree{constructor(t,e,s){if(this.valueLength=t.length,this.identity=
 
 ```js
 // https://github.com/axross/complex-data-structures
-// new UnionFind(length)
+// new UnionFind()
+//     unionFind.add(value)
 //     unionFind.isUnited(a, b)
 //     unionFind.unite(a, b)
 //     unionFind.length
-class UnionFind{constructor(e,t=0){this.nodes=[];for(let s=0;s<e;++s){const e={size:1};e.parent=e,this.nodes[s+t]=e}}get length(){return this.nodes.reduce((e,t)=>t.parent===t?e+1:e,0)}isUnited(e,t){return this.getRepresentative(this.nodes[e])===this.getRepresentative(this.nodes[t])}unite(e,t){const s=this.getRepresentative(this.nodes[e]),n=this.getRepresentative(this.nodes[t]);let i,r;s.size>=n.size?(i=s,r=n):(i=n,r=s),r.parent=i,i.size+=r.size,r.size=1}getRepresentative(e){return e.parent===e?e:(e.parent=this.getRepresentative(e.parent),e.parent)}}
+class UnionFind{constructor(){this.nodes=new Map}get length(){let t=0;for(const e of this.nodes.values())e.parent===e&&(t+=1);return t}isUnited(t,e){return this.getRoot(this.nodes.get(t))===this.getRoot(this.nodes.get(e))}add(t){if(this.nodes.has(t))throw new Error(`${t} already exists.`);const e={size:1};e.parent=e,this.nodes.set(t,e)}unite(t,e){const s=this.getRoot(this.getNode(t)),o=this.getRoot(this.getNode(e));if(s!==o){const t=s.size>=o.size?s:o,e=t===s?o:s;e.parent=t,t.size+=e.size,e.size=1}}getNode(t){if(!this.nodes.has(t))throw new Error(`${t} is not found.`);return this.nodes.get(t)}getRoot(t){return t.parent===t?t:(t.parent=this.getRoot(t.parent),t.parent)}}
 ```
 
 ## API
@@ -58,7 +59,8 @@ class UnionFind{constructor(e,t=0){this.nodes=[];for(let s=0;s<e;++s){const e={s
   - [`segmentTree.queryIn(from, to)`](#segmenttreequeryinfrom-to)
   - [`segmentTree.setAt(i, value)`](#segmenttreesetati-value)
   - [`segmentTree.length`](#segmenttreelength)
-- [`new UnionFind(length)`](#new-unionfindlength)
+- [`new UnionFind()`](#new-unionfind)
+  - [`unionFind.add(value)`](#unionfindaddvalue)
   - [`unionFind.isUnited(a, b)`](#unionfindisuniteda-b)
   - [`unionFind.unite(a, b)`](#unionfindunitea-b)
   - [`unionFind.length`](#unionfindlength)
@@ -184,7 +186,11 @@ const connections = [
   [1, 2],
   [1, 3]
 ];
-const unionFind = UnionFind.fromLength(n);
+const unionFind = new UnionFind();
+
+for (let i = 0; i < n; ++i) {
+  unionFind.add(i);
+}
 
 for (const [a, b] of connections) {
   unionFind.unite(a, b);
@@ -200,6 +206,10 @@ connections.length >= n - 1 ? unionFind.length - 1 : -1;
 #### `unionFind.isUnited(a, b)`
 
 Returns `true` if the given `a` and `b` is united, `false` otherwise. It takes O(α(n)) time.
+
+#### `unionFind.add(value)`
+
+Adds `value` as a new unite in O(1) time.
 
 #### `unionFind.unite(a, b)`
 

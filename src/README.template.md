@@ -39,7 +39,8 @@ Useful snippets of complex data structures for algorithm contests
 
 ```js
 // https://github.com/axross/complex-data-structures
-// new UnionFind(length)
+// new UnionFind()
+//     unionFind.add(value)
 //     unionFind.isUnited(a, b)
 //     unionFind.unite(a, b)
 //     unionFind.length
@@ -58,7 +59,8 @@ Useful snippets of complex data structures for algorithm contests
   - [`segmentTree.queryIn(from, to)`](#segmenttreequeryinfrom-to)
   - [`segmentTree.setAt(i, value)`](#segmenttreesetati-value)
   - [`segmentTree.length`](#segmenttreelength)
-- [`new UnionFind(length)`](#new-unionfindlength)
+- [`new UnionFind()`](#new-unionfind)
+  - [`unionFind.add(value)`](#unionfindaddvalue)
   - [`unionFind.isUnited(a, b)`](#unionfindisuniteda-b)
   - [`unionFind.unite(a, b)`](#unionfindunitea-b)
   - [`unionFind.length`](#unionfindlength)
@@ -184,7 +186,11 @@ const connections = [
   [1, 2],
   [1, 3]
 ];
-const unionFind = UnionFind.fromLength(n);
+const unionFind = new UnionFind();
+
+for (let i = 0; i < n; ++i) {
+  unionFind.add(i);
+}
 
 for (const [a, b] of connections) {
   unionFind.unite(a, b);
@@ -200,6 +206,10 @@ connections.length >= n - 1 ? unionFind.length - 1 : -1;
 #### `unionFind.isUnited(a, b)`
 
 Returns `true` if the given `a` and `b` is united, `false` otherwise. It takes O(α(n)) time.
+
+#### `unionFind.add(value)`
+
+Adds `value` as a new unite in O(1) time.
 
 #### `unionFind.unite(a, b)`
 
