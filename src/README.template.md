@@ -14,18 +14,35 @@ Useful snippets of complex data structures for algorithm contests
 ### Priority Queue
 
 ```js
+// https://github.com/axross/complex-data-structures
+// new PriorityQueue(values, compare)
+//     priorityQueue.head
+//     priorityQueue.pop()
+//     priorityQueue.push(value)
+//     priorityQueue.length
 <%=PriorityQueue>
 ```
 
 ### Segment Tree
 
 ```js
+// https://github.com/axross/complex-data-structures
+// new SegmentTree(values, identity, associate)
+//     segmentTree.getAt(i)
+//     segmentTree.queryIn(from, to)
+//     segmentTree.setAt(i, value)
+//     segmentTree.length
 <%=SegmentTree>
 ```
 
 ### Union Find / Disjoint Set
 
 ```js
+// https://github.com/axross/complex-data-structures
+// new UnionFind(length)
+//     unionFind.isUnited(a, b)
+//     unionFind.unite(a, b)
+//     unionFind.length
 <%=UnionFind>
 ```
 
