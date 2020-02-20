@@ -44,7 +44,7 @@ class SegmentTree{constructor(t,e,s){if(this.valueLength=t.length,this.identity=
 //     unionFind.isUnited(a, b)
 //     unionFind.unite(a, b)
 //     unionFind.length
-class UnionFind{constructor(){this.nodes=new Map}get length(){let t=0;for(const e of this.nodes.values())e.parent===e&&(t+=1);return t}isUnited(t,e){return this.getRoot(this.nodes.get(t))===this.getRoot(this.nodes.get(e))}add(t){if(this.nodes.has(t))throw new Error(`${t} already exists.`);const e={size:1};e.parent=e,this.nodes.set(t,e)}unite(t,e){const s=this.getRoot(this.getNode(t)),o=this.getRoot(this.getNode(e));if(s!==o){const t=s.size>=o.size?s:o,e=t===s?o:s;e.parent=t,t.size+=e.size,e.size=1}}getNode(t){if(!this.nodes.has(t))throw new Error(`${t} is not found.`);return this.nodes.get(t)}getRoot(t){return t.parent===t?t:(t.parent=this.getRoot(t.parent),t.parent)}}
+class UnionFind{constructor(){this.nodes=new Map,this.unionLength=0}get length(){return this.unionLength}isUnited(t,e){return this.getRoot(this.nodes.get(t))===this.getRoot(this.nodes.get(e))}add(t){if(this.nodes.has(t))throw new Error(`${t} already exists.`);const e={size:1};e.parent=e,this.nodes.set(t,e),this.unionLength+=1}unite(t,e){const n=this.getRoot(this.getNode(t)),s=this.getRoot(this.getNode(e));if(n!==s){const t=n.size>=s.size?n:s,e=t===n?s:n;e.parent=t,t.size+=e.size,e.size=1,this.unionLength-=1}}getNode(t){if(!this.nodes.has(t))throw new Error(`${t} is not found.`);return this.nodes.get(t)}getRoot(t){return t.parent===t?t:(t.parent=this.getRoot(t.parent),t.parent)}}
 ```
 
 ## API
@@ -217,7 +217,7 @@ Unites the given `a` and `b`. It takes O(α(n)) time.
 
 #### `unionFind.length`
 
-Returns number of unions in the union find tree in O(n) time. As long as no `unite()` is called, the return value is the same with the `length` at constructor.
+Returns number of unions in the union find tree in O(1) time. As long as no `unite()` is called, the return value is the same with the `length` at constructor.
 
 ## License
 
